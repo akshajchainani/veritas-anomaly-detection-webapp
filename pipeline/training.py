@@ -9,7 +9,7 @@ from statsmodels.tsa.seasonal import STL
 from pipeline.preprocess import encoder, get_preprocessed, remove_col, get_indexed_df
 
 def stl_model(dfsensor):
-    data = dfsensor.resample('D').mean().ffill()  # D-days, M-month, A-DEC- anual, Q-DEC-quarterly
+    data = dfsensor.resample('D').mean().ffill() 
     res = STL(data, period=15).fit()
     return res
 
@@ -46,11 +46,11 @@ def get_X(dfr):
     return X
 
 def fit_model_if(dfr):
-    # define random states
+    
     state = 1
     model1 = IsolationForest(n_estimators=200, contamination=0.11, random_state=state, max_samples='auto')
     model1.fit(dfr.values)
-    # save the model to disk
+   
     filename = '../models/model_if.pkl'
     pickle.dump(model1, open(filename,'wb'))
 
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     ROOT_DIR = Path('../')
     MODELS_DIR = ROOT_DIR / 'models'
     data = pd.read_csv('../data/uploads/Sensortest.csv')
-    #dfr = remove_col(data, 'Unnamed: 0', 'sensor_15')
+    
     dfr = get_preprocessed(data.iloc[:, 0:2])
     fit_model_if(dfr)
     fit_model_lof(dfr)
