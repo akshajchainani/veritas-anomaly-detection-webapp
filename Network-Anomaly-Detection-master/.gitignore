@@ -1,0 +1,5 @@
+*.css
+*.js
+*.pyc
+migrations/
+__pycache__/
